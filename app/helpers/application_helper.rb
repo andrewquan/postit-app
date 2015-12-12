@@ -1,6 +1,10 @@
 module ApplicationHelper
   def display_datetime(dt)
-    dt.strftime("%I:%M%p %m/%d/%Y")
+    if logged_in? && !current_user.time_zone.blank?
+      dt = dt.in_time_zone(current_user.time_zone)
+    end
+
+    dt.strftime("%I:%M%P %m/%d/%Y %Z")
   end
 
   def fix_url(str)
